@@ -25,6 +25,18 @@ function App() {
     animationFrameId.current = requestAnimationFrame(animate);
   }, []);
 
+  const handleStartStop = () => {
+    if (isActive) {
+      if (animationFrameId.current)
+        cancelAnimationFrame(animationFrameId.current);
+      pausedTime.current = time;
+    } else {
+      startTime.current = Date.now();
+      animationFrameId.current = requestAnimationFrame(animate);
+    }
+    setIsActive(!isActive);
+  };
+
   return (
     <div>
       <div>
@@ -32,7 +44,9 @@ function App() {
       </div>
       <div>
         <Button>ラップ</Button>
-        <Button>{isActive ? "ストップ" : "スタート"}</Button>
+        <Button onClick={handleStartStop}>
+          {isActive ? "ストップ" : "スタート"}
+        </Button>
         <Button>リセット</Button>
       </div>
 
